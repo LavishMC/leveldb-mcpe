@@ -78,6 +78,10 @@ Status Writer::AddRecord(const Slice& slice) {
     left -= fragment_length;
     begin = false;
   } while (s.ok() && left > 0);
+  // flush once for all 
+  if (s.ok()) {
+    s = Flush();
+  }
   return s;
 }
 
@@ -100,12 +104,13 @@ Status Writer::EmitPhysicalRecord(RecordType t, const char* ptr, size_t n) {
   Status s = dest_->Append(Slice(buf, kHeaderSize));
   if (s.ok()) {
     s = dest_->Append(Slice(ptr, n));
-    if (s.ok()) {
-      s = dest_->Flush();
-    }
   }
   block_offset_ += kHeaderSize + n;
   return s;
+}
+
+Status Writer::Flush() {
+  return dest_->Flush();
 }
 
 }  // namespace log

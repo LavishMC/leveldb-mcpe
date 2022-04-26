@@ -42,6 +42,7 @@ class Writer {
   uint32_t type_crc_[kMaxRecordType + 1];
 
   Status EmitPhysicalRecord(RecordType type, const char* ptr, size_t length);
+  Status Flush();
 
   // No copying allowed
   Writer(const Writer&);
