@@ -21,7 +21,7 @@
 namespace leveldb {
 
 static int TargetFileSize(const Options* options) {
-  return options->max_file_size;
+  return (int)options->max_file_size;
 }
 
 // Maximum bytes of overlaps in grandparent (i.e., level+2) before we

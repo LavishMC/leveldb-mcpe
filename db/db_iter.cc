@@ -129,7 +129,7 @@ class DBIter: public Iterator {
 
 inline bool DBIter::ParseKey(ParsedInternalKey* ikey) {
   Slice k = iter_->key();
-  ssize_t n = k.size() + iter_->value().size();
+  ssize_t n = (ssize_t)(k.size() + iter_->value().size());
   bytes_counter_ -= n;
   while (bytes_counter_ < 0) {
     bytes_counter_ += RandomPeriod();
